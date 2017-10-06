@@ -6,46 +6,84 @@ namespace JClaveau\VisibilityViolator;
  * constants.
  *
  * It is meant to be used during tests.
+ *
+ * @todo constants
  */
 class VisibilityViolator
 {
     /**
-     * Retruns the value of a private property of the owner.
+     *
+     */
+    private function extractClassNameAndObject($objectOrClassName)
+    {
+        if (is_object($objectOrClassName)) {
+            $object    = $objectOrClassName;
+            $className = get_class($objectOrClassName);
+        }
+        elseif (is_string($objectOrClassName)) {
+            if (!class_exists($objectOrClassName)) {
+                throw new \InvalidArgumentException(
+                    "The provided class name corresponds to no defined class: '$objectOrClassName'"
+                );
+            }
+            else {
+                $className = $objectOrClassName;
+            }
+
+            $object = null;
+        }
+        else {
+            throw new \InvalidArgumentException(
+                "\$objectOrClassName must be an instance or a class name including its namespace"
+            );
+        }
+
+        return [
+            $className,
+            $object
+        ];
+    }
+
+    /**
+     * Retruns the value of a private or protected property from a static class
+     * or an object.
      *
      * @param $name the name of the property
      * @return the value of the property
      */
-    public static function getPrivateProperty($object, $name)
+    public static function getHiddenProperty($objectOrClassName, $name)
     {
-        $reflectionClass = new \ReflectionClass(get_class($object));
+        list($className, $object) = self::extractClassNameAndObject($objectOrClassName);
+
+        $reflectionClass    = new \ReflectionClass($className);
         $reflectionProperty = $reflectionClass->getProperty($name);
         $reflectionProperty->setAccessible(true);
-        return $reflectionProperty->getValue($object);
+
+        $value = $object
+               ? $reflectionProperty->getValue($object)
+               : $reflectionProperty->getValue();
+
+        return $value;
     }
 
     /**
-     * Sets the value of a private property.
+     * Sets the value of a private or protected property.
      *
      * @param name of the private property
      * @param value the new value
      */
-    public static function setPrivateProperty($object, $name, $value)
+    public static function setHiddenProperty($objectOrClassName, $name, $value)
     {
-        self::setPrivatePropertyForClass($object, get_class($object), $name, $value);
-    }
+        list($className, $object) = self::extractClassNameAndObject($objectOrClassName);
 
-    /**
-     * Sets the value of a private property.
-     *
-     * @param name of the private property
-     * @param value the new value
-     */
-    public static function setPrivatePropertyForClass($object, $class, $name, $value)
-    {
-        $reflectionClass = new \ReflectionClass($class);
+        $reflectionClass    = new \ReflectionClass($className);
         $reflectionProperty = $reflectionClass->getProperty($name);
         $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($object, $value);
+
+        if ($object)
+            $reflectionProperty->setValue($object, $value);
+        else
+            $reflectionProperty->setValue($value);
     }
 
     /**
@@ -55,28 +93,15 @@ class VisibilityViolator
      * @param  $arguments   : an array of arguments for the method call
      * @return mixed        : the returned value of the method
      */
-    public static function callPrivateMethod($object, $name, $arguments=array())
+    public static function callHiddenMethod($objectOrClassName, $name, $arguments=[])
     {
-        $reflectionClass = new \ReflectionClass(get_class($object));
+        list($className, $object) = self::extractClassNameAndObject($objectOrClassName);
+
+        $reflectionClass  = new \ReflectionClass(get_class($object));
         $reflectionMethod = $reflectionClass->getMethod($name);
         $reflectionMethod->setAccessible(true);
-        return $reflectionMethod->invokeArgs($object, $arguments);
-    }
 
-    /**
-     * Calls a static private method of a class.
-     *
-     * @param  $className   : the name of the class
-     * @param  $name        : the name of the static privat method
-     * @param  $arguments   : the arguments to use during the method call
-     * @return mixed        : the returned value of the method
-     */
-    public static function callPrivateStaticMethod($className, $name, $arguments=array())
-    {
-        $reflectionClass = new \ReflectionClass( $className );
-        $reflectionMethod = $reflectionClass->getMethod( $name );
-        $reflectionMethod->setAccessible( true );
-        return $reflectionMethod->invokeArgs( null, $arguments );
+        $reflectionMethod->invokeArgs($object, $arguments);
     }
 
     /**/
