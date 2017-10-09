@@ -14,7 +14,7 @@ class VisibilityViolator
     /**
      *
      */
-    private function extractClassNameAndObject($objectOrClassName)
+    private static function extractClassNameAndObject($objectOrClassName)
     {
         if (is_object($objectOrClassName)) {
             $object    = $objectOrClassName;
