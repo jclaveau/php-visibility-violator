@@ -93,15 +93,15 @@ class VisibilityViolator
      * @param  $arguments   : an array of arguments for the method call
      * @return mixed        : the returned value of the method
      */
-    public static function callHiddenMethod($objectOrClassName, $name, $arguments=[])
+    public static function callHiddenMethod($objectOrClassName, $name, array $arguments=[])
     {
         list($className, $object) = self::extractClassNameAndObject($objectOrClassName);
 
-        $reflectionClass  = new \ReflectionClass(get_class($object));
+        $reflectionClass  = new \ReflectionClass($className);
         $reflectionMethod = $reflectionClass->getMethod($name);
         $reflectionMethod->setAccessible(true);
 
-        $reflectionMethod->invokeArgs($object, $arguments);
+        return $reflectionMethod->invokeArgs($object, $arguments);
     }
 
     /**/
