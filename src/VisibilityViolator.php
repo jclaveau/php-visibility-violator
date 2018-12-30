@@ -12,7 +12,8 @@ namespace JClaveau\VisibilityViolator;
 class VisibilityViolator
 {
     /**
-     *
+     * @param  string|object $objectOrClassName  The name of the class or the instance
+     * @return array
      */
     private static function extractClassNameAndObject($objectOrClassName)
     {
@@ -48,8 +49,9 @@ class VisibilityViolator
      * Retruns the value of a private or protected property from a static class
      * or an object.
      *
-     * @param $name the name of the property
-     * @return the value of the property
+     * @param  string|object $objectOrClassName  The name of the class or the instance
+     * @param  string        $name               The name of the property
+     * @return mixed                             The value of the property
      */
     public static function getHiddenProperty($objectOrClassName, $name)
     {
@@ -69,8 +71,9 @@ class VisibilityViolator
     /**
      * Sets the value of a private or protected property.
      *
-     * @param name of the private property
-     * @param value the new value
+     * @param string|object $objectOrClassName  The name of the class or the instance
+     * @param string        $name               The name of the private property
+     * @param mixed         $value              The new value
      */
     public static function setHiddenProperty($objectOrClassName, $name, $value)
     {
@@ -89,9 +92,10 @@ class VisibilityViolator
     /**
      * Calls a private method of the owner.
      *
-     * @param  $name        : the name of the method
-     * @param  $arguments   : an array of arguments for the method call
-     * @return mixed        : the returned value of the method
+     * @param  string|object $objectOrClassName The name of the class or the instance
+     * @param  string        $name              The name of the method
+     * @param  array         $arguments         An array of arguments for the method call
+     * @return mixed                            The returned value of the method
      */
     public static function callHiddenMethod($objectOrClassName, $name, array $arguments=[])
     {
