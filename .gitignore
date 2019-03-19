@@ -5,3 +5,4 @@
 /docs/phpdoc-*
 composer.lock
 .php_cs.cache
+/phpdoc-cache-*
