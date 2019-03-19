@@ -36,6 +36,7 @@ class VisibilityViolator
         else {
             throw new \InvalidArgumentException(
                 "\$objectOrClassName must be an instance or a class name including its namespace"
+                ." instead of ".var_export($objectOrClassName, true)
             );
         }
 

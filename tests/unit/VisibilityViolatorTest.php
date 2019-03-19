@@ -121,5 +121,69 @@ class VisibilityViolatorTest extends AbstractTest
         );
     }
 
+    public function provider_extractClassNameAndObject()
+    {
+        return [
+            'existing_instance' => [
+                $instance = new TestsSubject, 
+                [TestsSubject::class, $instance], 
+            ],
+            'existing_class' => [
+                TestsSubject::class, 
+                [TestsSubject::class, null], 
+            ],
+        ];
+    }
+    
+    /**
+     * @dataProvider provider_extractClassNameAndObject
+     */
+    public function test_extractClassNameAndObject($class_or_instance, array $extracted_class_and_instance)
+    {
+        $this->assertEquals(
+            $extracted_class_and_instance,
+            VisibilityViolator::callHiddenMethod(
+                VisibilityViolator::class,
+                'extractClassNameAndObject',
+                [$class_or_instance]
+            )
+        );
+    }
+
+    public function provider_extractClassNameAndObject_invalid()
+    {
+        return [
+            'non_existing_class' => [
+                'choubidoubidouwa!', 
+                "The provided class name corresponds to no defined class: 'choubidoubidouwa!'", 
+            ],
+            'neither_a_string_either_an_instance' => [
+                8, 
+                '$objectOrClassName must be an instance or a class name including its namespace instead of 8', 
+            ],
+        ];
+    }
+    
+    /**
+     * @dataProvider provider_extractClassNameAndObject_invalid
+     */
+    public function test_extractClassNameAndObject_invalid($invalid_class_or_instance, $exception_message)
+    {
+        try {
+            VisibilityViolator::callHiddenMethod(
+                VisibilityViolator::class,
+                'extractClassNameAndObject',
+                [$invalid_class_or_instance]
+            );
+            $this->assertTrue(false, 'an error should have been thrown here');
+        }
+        catch (\Exception $e) {
+            $this->assertEquals(
+                $exception_message,
+                $e->getMessage()
+            );
+        }
+    }
+
     /**/
 }
