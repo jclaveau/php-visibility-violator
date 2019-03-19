@@ -42,6 +42,44 @@ class VisibilityViolatorTest extends AbstractTest
         );
     }
 
+    public function provider_setHiddenProperty()
+    {
+        return [
+            'protected_property' => [
+                new TestsSubject, 
+                'protected_property', 
+                'protected_property_changed_value',
+            ],
+            'private_property' => [
+                new TestsSubject, 
+                'private_property', 
+                'private_property_changed_value',
+            ],
+            'protected_static_property' => [
+                TestsSubject::class, 
+                'protected_static_property', 
+                'protected_static_property_changed_value',
+            ],
+            'private_static_property' => [
+                TestsSubject::class, 
+                'private_static_property', 
+                'private_static_property_changed_value',
+            ],
+        ];
+    }
+    
+    /**
+     * @dataProvider provider_setHiddenProperty
+     */
+    public function test_setHiddenProperty($class_or_instance, $property, $value)
+    {
+        VisibilityViolator::setHiddenProperty($class_or_instance, $property, $value);
+        $this->assertEquals(
+            $value,
+            VisibilityViolator::getHiddenProperty($class_or_instance, $property)
+        );
+    }
+
     public function provider_callHiddenMethod()
     {
         return [
