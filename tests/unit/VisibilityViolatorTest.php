@@ -42,5 +42,46 @@ class VisibilityViolatorTest extends AbstractTest
         );
     }
 
+    public function provider_callHiddenMethod()
+    {
+        return [
+            'protected_property' => [
+                new TestsSubject, 
+                'protectedMethod', 
+                ['argument'],
+                'protectedMethod_return',
+            ],
+            'private_property' => [
+                new TestsSubject, 
+                'privateMethod', 
+                ['argument'],
+                'privateMethod_return',
+            ],
+            'protected_static_property' => [
+                TestsSubject::class, 
+                'protectedStaticMethod', 
+                ['argument'],
+                'protectedStaticMethod_return',
+            ],
+            'private_static_property' => [
+                TestsSubject::class, 
+                'privateStaticMethod', 
+                ['argument'],
+                'privateStaticMethod_return',
+            ],
+        ];
+    }
+    
+    /**
+     * @dataProvider provider_callHiddenMethod
+     */
+    public function test_callHiddenMethod($class_or_instance, $method, $arguments, $value)
+    {
+        $this->assertEquals(
+            $value.' with ['.implode(', ', $arguments).']',
+            VisibilityViolator::callHiddenMethod($class_or_instance, $method, $arguments)
+        );
+    }
+
     /**/
 }

@@ -13,14 +13,32 @@ class TestsSubject
      */
     protected function protectedMethod()
     {
-        return 'protectedMethod()';
+        return 'protectedMethod_return'
+            .' with ['.implode(', ', func_get_args()).']';
     }
 
     /**
      */
     private function privateMethod()
     {
-        return 'privateMethod()';
+        return 'privateMethod_return'
+            .' with ['.implode(', ', func_get_args()).']';
+    }
+
+    /**
+     */
+    protected static function protectedStaticMethod()
+    {
+        return 'protectedStaticMethod_return'
+            .' with ['.implode(', ', func_get_args()).']';
+    }
+
+    /**
+     */
+    private static function privateStaticMethod()
+    {
+        return 'privateStaticMethod_return'
+            .' with ['.implode(', ', func_get_args()).']';
     }
 
     /**/
