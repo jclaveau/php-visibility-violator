@@ -1,8 +1,8 @@
 {
     "name": "jclaveau/php-visibility-violator",
-    "description": "Library to violate the defined visibility of methods and properties for testing purpose",
+    "description": "Class providing simple helpers to violate the defined visibility of methods and properties",
     "license": "MIT",
-    "keywords": ["visibility", "violate", "php", "utils"],
+    "keywords": ["visibility", "violate", "helpers", "reflection", "private", "protected", "public", "hidden"],
     "authors": [
         {
             "name": "Jean Claveau",
@@ -23,6 +23,6 @@
         "phpunit/phpunit": "4.8.*"
     },
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.6.0"
     }
 }
