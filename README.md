@@ -23,14 +23,16 @@ composer require jclaveau/php-visibility-violator
 ## Usage
 
 ```php
-$value = VisibilityViolator::getHiddenProperty($instance, $property);
-$value = VisibilityViolator::getHiddenProperty(MyClass::class, $static_property);
+use JClaveau\VisibilityViolator\VisibilityViolator;
 
-VisibilityViolator::setHiddenProperty($instance, $property, 'new value');
-VisibilityViolator::setHiddenProperty(MyClass::class, $static_property, 'new value');
+$value = VisibilityViolator::getHiddenProperty($instance, 'property');
+$value = VisibilityViolator::getHiddenProperty(MyClass::class, 'static_property');
 
-$return = VisibilityViolator::callHiddenMethod($instance, $method, $arguments);
-$return = VisibilityViolator::callHiddenMethod(MyClass::class, $static_method, $arguments);
+VisibilityViolator::setHiddenProperty($instance, 'property', 'new value');
+VisibilityViolator::setHiddenProperty(MyClass::class, 'static_property', 'new value');
+
+$return = VisibilityViolator::callHiddenMethod($instance, 'method', $arguments);
+$return = VisibilityViolator::callHiddenMethod(MyClass::class, 'staticMethod', ['argument 1', 'argument 2']);
 ```
 
 ## Documentation
