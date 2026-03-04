@@ -1,15 +1,17 @@
 <?php
 namespace JClaveau\VisibilityViolator\Tests;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  */
-class AbstractTest extends \PHPUnit_Framework_TestCase
+class AbstractTest extends TestCase
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
     }
 
-    public function setUp()
+    protected function setUp(): void
     {
         echo( get_called_class() . '::' . $this->getName() ."\n" );
     }
