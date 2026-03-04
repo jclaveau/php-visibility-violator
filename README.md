@@ -7,7 +7,7 @@ This class provides simple helpers uppon basic features of the [Reflection API](
 + Call privates or protected methods 
 
 ## Quality
-[![Build Status](https://travis-ci.org/jclaveau/php-logical-filter.png?branch=master)](https://travis-ci.org/jclaveau/php-visibility-violator)
+[![Tests](https://github.com/jclaveau/php-visibility-violator/actions/workflows/tests.yml/badge.svg)](https://github.com/jclaveau/php-visibility-violator/actions/workflows/tests.yml)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jclaveau/php-visibility-violator/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jclaveau/php-visibility-violator/?branch=master)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/jclaveau/php-visibility-violator/issues)
 [![Viewed](http://hits.dwyl.com/jclaveau/php-visibility-violator.svg)](http://hits.dwyl.com/jclaveau/php-visibility-violator)
